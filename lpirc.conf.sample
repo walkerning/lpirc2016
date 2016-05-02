@@ -1,0 +1,36 @@
+[general]
+## In our case, we use 200-class imagenet dataset
+# num_classes = 201
+
+[runner]
+## The image queue size
+# queue_size = 8
+
+[detector]
+## Set cpu_mode to `true` to use cpu only
+# cpu_mode = false
+
+## GPU device id to use
+# device_id = 0
+
+## prototxt file
+# proto = "./fast_rcnn_test.pt"
+
+## caffemodel file
+# model = "./fast_rcnn_test.caffemodel"
+
+[reducer]
+## Reduce to `max_per_image` boxes in one image
+# max_per_image = 5
+
+## Boxes that has score beyond this threshold will be handled in NMS
+# score_thresh = 0.05
+
+## Set `cpu_nms` to true to execute NMS on CPU
+# cpu_nms = false
+
+## Overlap threshold used for non-maximum suppression (suppress boxes with
+## IoU >= this threshold)
+# IoU_thresh = 0.3
+
+[api]

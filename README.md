@@ -16,3 +16,9 @@ Arch
               |   HTTP server |
               +---------------+
 ```
+
+
+Config
+----------------
+
+`lpirc.conf.sample`里是一个示例配置文件
