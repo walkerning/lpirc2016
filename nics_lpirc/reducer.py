@@ -34,10 +34,11 @@ class BoxReducer(object):
             else:
                 all_dets = np.vstack((all_dets, cls_dets))
 
+        box_classes = np.array(box_classes, dtype=int)
         # Limit to max_per_image detections *over all classes*
         if len(box_classes) > self.max_per_image:
             indexes = np.argsort(-box_scores)[:self.max_per_image]
             all_dets = all_dets[indexes, :]
-        box_classes = np.array(box_classes, dtype=int)[indexes]
+            box_classes = box_classes[indexes]
 
         return (box_classes, all_dets)
