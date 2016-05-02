@@ -74,14 +74,15 @@ class Config(object):
         for key, nested_dict in self.cfg_dict.iteritems():
             self.cfg_dict[key] = _ConfigBundle(self.cfg_dict[key])
 
-        print self.cfg_dict
-
     def __getattr__(self, name):
         if name in self.cfg_dict:
             return self.cfg_dict[name]
         else:
             raise AttributeError("type %s object has no attribute %s" % (self.__class__,
                                                                          name))
+
+    def __repr__(self):
+        return repr(self.cfg_dict)
 
     @classmethod
     def from_file(cls, file_name):
@@ -110,3 +111,8 @@ model = "./faster_rcnn_test_1.caffemodel"
     assert cfg.general.num_classes == 201
     assert cfg.reducer.cpu_nms == False
     assert cfg.reducer.score_thresh == 0.05
+
+    import sys
+    if sys.argv >= 2:
+        cfg = Config.from_file(sys.argv[1])
+        print cfg

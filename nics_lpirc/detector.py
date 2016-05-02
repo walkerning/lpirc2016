@@ -16,5 +16,4 @@ class Detector(object):
 
     def detect(self, im):
         scores, boxes = im_detect(self.net, im)
-        print scores, boxes
         return scores, boxes

@@ -16,7 +16,6 @@ class BoxReducer(object):
         Reduce the result boxes
         """
         box_classes = []
-        all_dets = np.array([], dtype="float32")
         box_scores = np.array([], dtype="float32")
         for j in xrange(1, self.num_classes):
             # single-class NMS
@@ -30,7 +29,10 @@ class BoxReducer(object):
             box_classes += [j] * len(keep)
             cls_dets = cls_dets[keep, :]
             box_scores = np.append(box_scores, cls_scores[keep])
-            all_dets = np.vstack((all_dets, cls_dets))
+            if j == 1:
+                all_dets = cls_dets
+            else:
+                all_dets = np.vstack((all_dets, cls_dets))
 
         # Limit to max_per_image detections *over all classes*
         if len(box_classes) > self.max_per_image:
