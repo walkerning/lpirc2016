@@ -22,3 +22,11 @@ Config
 ----------------
 
 `lpirc.conf.sample`里是一个示例配置文件
+
+
+TODO
+----------------
+
+- [ ] HTTP api实现
+- [ ] profiling, 方便之后做各种参数的选择
+
