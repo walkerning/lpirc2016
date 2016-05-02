@@ -37,6 +37,17 @@ cpu_nms = false
 IoU_thresh = 0.3
 
 [api]
+
+[localapi]
+## The directory that contains the test images
+local_dir = "./images"
+
+## The single file that all the results should be write to.
+# if set to "", will write all the answers to `res_dir`.
+single_res_file = ""
+
+res_dir = "./images_res"
+
 """
 
 class _ConfigBundle(object):

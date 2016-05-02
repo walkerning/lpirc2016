@@ -6,7 +6,7 @@ from fast_rcnn.nms_wrapper import nms
 class BoxReducer(object):
     def __init__(self, cfg):
         self.max_per_image = cfg.reducer.max_per_image
-        self.thresh = cfg.reducer.score_thresh
+        self.score_thresh = cfg.reducer.score_thresh
         self.num_classes = cfg.general.num_classes
         self.IoU_thresh = cfg.reducer.IoU_thresh
         self.force_cpu = cfg.reducer.cpu_nms
@@ -30,7 +30,7 @@ class BoxReducer(object):
             box_classes += [j] * len(keep)
             cls_dets = cls_dets[keep, :]
             box_scores = np.append(box_scores, cls_scores[keep])
-            all_dets = np.vstack(all_dets, cls_dets)
+            all_dets = np.vstack((all_dets, cls_dets))
 
         # Limit to max_per_image detections *over all classes*
         if len(box_classes) > self.max_per_image:

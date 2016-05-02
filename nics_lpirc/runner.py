@@ -3,15 +3,19 @@
 import argparse
 from multiprocessing import Process, Queue
 
+from fast_rcnn.config import cfg as f_cfg
+
 from nics_lpirc.api import APIAdapter
 from nics_lpirc.reducer import BoxReducer
 from nics_lpirc.detector import Detector
 from nics_lpirc.util import import_class
 from nics_lpirc.config import Config
 
+
 class Runner(object):
     def __init__(self, api_cls, detector_cls, reducer_cls, cfg):
-        # Is there any need to patch fast_rcnn.config?
+        # patch fast_rcnn.config.cfg
+        f_cfg.TEST.HAS_RPN = True
         if not issubclass(api_cls, APIAdapter):
             raise ValueError("`api_cls` should be an subclass of class `APIAdapter`")
         self.api_ada = api_cls(cfg)
@@ -32,18 +36,19 @@ class Runner(object):
             queue.put(im)
 
     def detect(self, im):
-        score, boxes = self.detector.detect(im)
-        class_ids, dets = self.reducer.reduce_boxes()
+        scores, boxes = self.detector.detect(im)
+        class_ids, dets = self.reducer.reduce_boxes(scores, boxes)
         return class_ids, dets
 
     def run(self):
         fetch_process = Process(target=Runner.fetch_image, args=(self.api_ada, self.queue))
         fetch_process.start()
-        im = self.queue.get()
-        while im is not None:
+        # Q: 是否应该在此进程读图像文件, 而不是从queue里拿image
+        im_id, im = self.queue.get()
+        while im_id is not None:
             class_ids, dets = self.detect(im)
-            self.api_ada.commit_result(self, class_ids, dets)
-            im = self.queue.get()
+            self.api_ada.commit_result(self, im_id, class_ids, dets)
+            im_id, im = self.queue.get()
 
         fetch_process.join()
 

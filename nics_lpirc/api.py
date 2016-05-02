@@ -15,23 +15,11 @@ class APIAdapter(object):
 
     def __iter__(self):
         while not self.done():
-            yield(self.get_image())
-        yield(None)
+            im_id, im = self.get_image()
+            yield((im_id, im))
+        yield((None, None))
 
 class HttpAPI(APIAdapter):
-    def __init__(self, cfg):
-        pass
-
-    def get_image(self):
-        pass
-
-    def commit_result(self, class_ids, dets):
-        pass
-
-    def done(self):
-        pass
-
-class LocalAPI(APIAdapter):
     def __init__(self, cfg):
         pass
 

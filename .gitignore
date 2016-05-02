@@ -94,6 +94,9 @@ ENV/
 *.jpg
 *.jpeg
 *.png
+res.txt
+images/
+images_res/
 
 # --- conf ---
 *.conf
