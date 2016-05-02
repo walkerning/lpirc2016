@@ -4,7 +4,7 @@ import argparse
 from multiprocessing import Process, Queue
 import time
 import sys
-import signal
+import traceback
 
 from fast_rcnn.config import cfg as f_cfg
 
@@ -36,7 +36,6 @@ class Runner(object):
 
     @staticmethod
     def fetch_image(api_ada, queue):
-        #init_signal(main=False)
         for im in api_ada:
             queue.put(im)
 
@@ -52,35 +51,22 @@ class Runner(object):
         # Q: 是否应该在此进程读图像文件, 而不是从queue里拿image
         im_id, im = self.queue.get()
         while im_id is not None:
-            import pdb
-            pdb.set_trace()
             class_ids, dets = self.detect(im)
-            self.api_ada.commit_result(self, im_id, class_ids, dets)
+            self.api_ada.commit_result(im_id, class_ids, dets)
             im_id, im = self.queue.get()
 
         fetch_process.join()
 
-# def init_signal(main=True):
-#     signals = [signal.SIGTERM]
-#     if main == False:
-#         for sig in signals:
-#             signal.signal(sig, signal.SIG_DFL)
-#     def sig_handler(sig, frame):
-#         print 'got signal: %d' % sig
-#         if fetch_process is not None and os.getpid() == fetch_process.pid:
-#             sys.exit(sig + 128)
-#         else:
-#             if fetch_process is not None and fetch_process.is_alive():
-#                 fetch_process.terminate()
-#             sys.exit(sig + 128)
-            
-#     for sig in signals:
-#         signal.signal(sig, sig_handler)
+def terminate_fetch_process():
+    if fetch_process is not None and fetch_process.is_alive():
+        print "Terminating the subprocess..."
+        fetch_process.terminate()
+        time.sleep(0.1)
+        if fetch_process.is_alive():
+            print "Error: Subprocess is still alive!!!"
+    sys.exit(1)
 
 def main():
-    ## init signal handler
-    # init_signal()
-
     parser = argparse.ArgumentParser(
         prog="lpirc_detect",
     )
@@ -95,14 +81,13 @@ def main():
     runner = Runner(import_class(args.api), Detector, BoxReducer, cfg)
     try:
         runner.run()
+    except Exception as e:
+        print "%s: %s" % (e.__class__.__name__, e)
+        traceback.print_exc()
+        terminate_fetch_process()
     except:
-        if fetch_process is not None and fetch_process.is_alive():
-            print "Trying to close the subprocess."
-            fetch_process.terminate()
-            time.sleep(0.1)
-            if fetch_process.is_alive():
-                print "Error: Subprocess is still alive!!!"
-        sys.exit(1)
+        # try to terminate the subprocess when something unexpected happened.
+        terminate_fetch_process()
 
 if __name__ == "__main__":
     main()
