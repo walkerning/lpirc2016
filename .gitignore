@@ -98,6 +98,7 @@ res.txt
 images/
 images_res/
 experiements/
+cfgs/
 
 # --- conf ---
 *.conf

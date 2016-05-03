@@ -118,6 +118,6 @@ httpapi.commit_result          0.000000 0.000000        0
 ### TODO
 
 - [ ] HTTP api实现
-- [ ] 可视化脚本
-- [ ] profiling, 方便之后做各种参数的选择
-
+- [x] 可视化脚本
+- [x] profiling, 方便之后做各种参数的选择
+- [ ] evaluation脚本, 传入eval-dataset和对应的ground-truth评估模型的好坏
