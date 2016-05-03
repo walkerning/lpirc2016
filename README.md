@@ -28,9 +28,21 @@ cp lpirc.conf.sample lpirc.conf # 复制并编辑lpirc.conf, 修改配置
 ### Run
 
 ```bash
-python runner.py  -c <config file> --api <fully-qualified import path of api class or the import path relative to nics_lpirc>
-# eg. python runner -c ./lpirc.conf --api local.LocalAPI
+lpirc_detect  -c <config file> --api <fully-qualified import path of api class or the import path relative to nics_lpirc>
+# eg. lpirc_detect -c ./lpirc.conf --api local.LocalAPI
 ```
+
+### Test and Debug
+
+**Visualizing**
+
+记得使用 `ssh -Y <server>` 登陆打开SSH的X-Forwarding和xauth信任.
+
+```bash
+lpirc_vis -f --api local.LocalAPI -d scripts/cls_dict.pkl <path/to/your/result_file> -c <path/to/your/conf>
+```
+
+**Profiling**
 
 ### Problems
 
