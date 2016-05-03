@@ -582,6 +582,25 @@ def parse_cmd_line():
 
     print "\nhost = "+host_ipaddress+":"+host_port+"\nUsername = "+username+"\nPassword = "+password+"" 
 
+def set_cfgs(cfg):
+    """
+    Set global variables from config
+    """
+    global host_ipaddress
+    global host_port
+    global score
+    global username
+    global password
+    global csv_filename
+    global image_directory
+    global temp_directory
+
+    host_ipaddress = cfg.host_ipaddress
+    host_port = cfg.host_port
+    username = cfg.username
+    password = cfg.password
+    image_directory = cfg.image_directory
+    temp_directory = cfg.temp_directory
 
 #+++++++++++++++++++++++++++ Global Variables ++++++++++++++++++++++++++++++++++++++++++++++++++++
 # host_ipaddress = '128.46.75.108'
