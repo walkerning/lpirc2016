@@ -13,6 +13,10 @@ class APIAdapter(object):
     def done(self):
         raise NotImplementedError()
 
+    @classmethod
+    def get_image_by_id(cls, cfg, im_id):
+        raise NotImplementedError()
+
     def __iter__(self):
         while not self.done():
             im_id, im = self.get_image()

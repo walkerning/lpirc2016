@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 
 import cv2
 
@@ -27,7 +28,7 @@ class LocalAPI(APIAdapter):
         try:
             im = cv2.imread(os.path.join(self.local_dir, fname))
         except Exception as e:
-            print "Exception in reading image, ignore this image %s: " % fname, e
+            print >>sys.stderr, "Exception in reading image, ignore this image %s: " % fname, e
         im_id = "%d_%s" % (self.index, fname)
         self.index += 1
         return im_id, im
@@ -45,3 +46,13 @@ class LocalAPI(APIAdapter):
 
     def done(self):
         return self.index >= self.num_files
+
+    @classmethod
+    def get_image_by_id(cls, cfg, im_id):
+        ldir = cfg.localapi.local_dir
+        _, fname = im_id.split("_", 1)
+        try:
+            return cv2.imread(os.path.join(ldir, fname))
+        except Exception as e:
+            print >>sys.stderr, "Exception in reading image, ignore this image %s: " % fname, e
+            return None
