@@ -94,6 +94,8 @@ ENV/
 *.jpg
 *.jpeg
 *.png
+*.csv
+*.xml
 res.txt
 images/
 images_res/

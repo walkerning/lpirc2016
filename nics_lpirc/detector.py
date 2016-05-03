@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*_
+# -*- coding: utf-8 -*-
 
 from fast_rcnn.test import im_detect
 import caffe
