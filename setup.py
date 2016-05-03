@@ -17,7 +17,10 @@ MODULES = []
 PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
 # dependencies
-INSTALL_REQUIRES = ["numpy>=1.8"]
+INSTALL_REQUIRES = [
+    "numpy>=1.8",
+    "toml"
+]
 TESTS_REQUIRE = []
 
 def read_long_description(filename):
