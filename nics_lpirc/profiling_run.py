@@ -9,8 +9,8 @@ from utils.timer import Timer # in fast_rcnn
 from nics_lpirc.reducer import BoxReducer
 from nics_lpirc.detector import Detector
 from nics_lpirc.runner import (Runner, main)
-from nics_lpirc.local import LocalAPI
-from nics_lpirc.api import HttpAPI
+from nics_lpirc.api.local import LocalAPI
+from nics_lpirc.api.http import HttpAPI
 
 global_timer_dict = {}
 

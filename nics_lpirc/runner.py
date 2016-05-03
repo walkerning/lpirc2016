@@ -74,8 +74,8 @@ def main():
     parser.add_argument("--api", metavar="API_CLS", help="Use API_CLS for getting images and commit result", default="api.HttpAPI")
     args = parser.parse_args()
 
-    if not args.api.startswith("nics_lpirc."):
-        args.api = "nics_lpirc." + args.api
+    if not args.api.startswith("nics_lpirc.api."):
+        args.api = "nics_lpirc.api." + args.api
 
     cfg = Config.from_file(args.config)
     runner = Runner(import_class(args.api), Detector, BoxReducer, cfg)

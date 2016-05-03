@@ -22,16 +22,3 @@ class APIAdapter(object):
             im_id, im = self.get_image()
             yield((im_id, im))
         yield((None, None))
-
-class HttpAPI(APIAdapter):
-    def __init__(self, cfg):
-        pass
-
-    def get_image(self):
-        pass
-
-    def commit_result(self, class_ids, dets):
-        pass
-
-    def done(self):
-        pass

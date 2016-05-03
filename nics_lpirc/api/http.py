@@ -1,8 +1,11 @@
-#! /usr/bin/env python
-import client
+# -*- coding: utf-8 -*-
+
 import numpy as np
 
-class carrier(object):
+from nics_lpirc.api import client
+from nics_lpirc.api import APIAdapter
+
+class HttpAPI(APIAdapter):
     def __init__(self, usrname, passwd):
         [self.token, self.status] = client.get_token(usrname, passwd)
         [self.total_num, status] = client.get_no_of_images(self.token)
@@ -40,7 +43,7 @@ class carrier(object):
         return (self.get_idx, res)
 
 
-    def post_result(self,image_id, class_ids, confidences, bboxs):
+    def commit_result(self,image_id, class_ids, confidences, bboxs):
         if len(class_ids) != len(confidences) and len(class_ids) != len(bboxs):
             print "Index does not match!"
             return 0
@@ -75,26 +78,3 @@ class carrier(object):
         if self.status != 1:
             return 1
         return self.post_idx == self.get_idx
-
-if __name__ == "__main__":
-    import PIL.Image as Image
-    import matplotlib.pyplot as plt
-    tester = carrier('lpirc','pass')
-    print tester.token
-    print tester.total_num
-    for i in range(15):
-        if tester.done():
-            break
-        image_f = tester.get_image()
-        print image_f, i
-    ima = Image.open(image_f[1])
-    plt.show(ima)
-    print "Get images done"
-
-    bboxs = [(0,0,4,5)]
-    confidences = np.array([0.3])
-    class_ids = np.array([4])
-    for i in range(15):
-        tester.post_result(i, class_ids, confidences, bboxs)
-
-    print "Post result done"

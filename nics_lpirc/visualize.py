@@ -88,8 +88,8 @@ def visualize():
     parser.add_argument("-t", "--thresh", type=float, metavar="THRESH", help="Score threshold of bboxes for visualization", default=0.5)
     args = parser.parse_args()
 
-    if not args.api.startswith("nics_lpirc."):
-        args.api = "nics_lpirc." + args.api
+    if not args.api.startswith("nics_lpirc.api."):
+        args.api = "nics_lpirc.api." + args.api
     api_cls = import_class(args.api)
 
     cfg = Config.from_file(args.config)
