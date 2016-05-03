@@ -32,6 +32,7 @@ class Visualizer(object):
                 score = float(score)
                 if score <= self.vis_thresh:
                     continue
+                # gather bbox detection information by image id
                 self.im_dict.setdefault(im_id, []).append({
                     "cls_ind": cls_ind,
                     "cls_name": self.cls_dict.get(int(cls_ind), cls_ind),
@@ -41,11 +42,16 @@ class Visualizer(object):
         vis_ind = 0
 
         for im_id, det_infos in self.im_dict.iteritems():
-            fig, ax = plt.subplots(figsize=(12, 12))
+            # get image using the API classmethod get_image_by_id
             im = self.api_cls.get_image_by_id(self.cfg, im_id)
             if im is None:
                 continue
+
+            fig, ax = plt.subplots(figsize=(12, 12))
+            # draw the original image
             im = im[:, :, (2, 1, 0)]
+            ax.imshow(im, aspect="equal")
+
             for det_info in det_infos:
                 bbox = det_info["bbox"]
                 ax.add_patch(
@@ -59,12 +65,17 @@ class Visualizer(object):
                         bbox=dict(facecolor='blue', alpha=0.5),
                         fontsize=14, color='white')
 
-            ax.set_title(('{im_id} detections with '
-                          'p({cls_name} | box) >= %f' % self.vis_thresh)
-                         .format(**det_info),
+            ax.set_title(('{} detections with '
+                          'p( is_obj | box ) >= {:1f}'.format(im_id, self.vis_thresh)),
                          fontsize=14)
             print "%d: image %s handled, %d boxes ploted" % (vis_ind, im_id, len(det_infos))
             vis_ind += 1
+            plt.axis("off")
+            plt.tight_layout
+            plt.draw()
+
+        # show all the plots
+        plt.show()
 
 def visualize():
     parser = argparse.ArgumentParser(
