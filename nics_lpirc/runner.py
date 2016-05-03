@@ -82,7 +82,7 @@ def main():
     try:
         runner.run()
     except Exception as e:
-        print "%s: %s" % (e.__class__.__name__, e)
+        print >>sys.stderr, "%s: %s" % (e.__class__.__name__, e)
         traceback.print_exc()
         terminate_fetch_process()
     except:

@@ -3,7 +3,7 @@ import toml
 DEFAULT_CONF_STR = """
 [general]
 ## In our case, we use 200-class imagenet dataset
-num_classes = 201
+num_classes = 200
 
 [runner]
 ## The image queue size

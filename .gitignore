@@ -97,6 +97,7 @@ ENV/
 res.txt
 images/
 images_res/
+experiements/
 
 # --- conf ---
 *.conf

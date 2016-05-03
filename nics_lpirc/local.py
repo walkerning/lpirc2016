@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+
 import cv2
 
 from nics_lpirc.api import APIAdapter
@@ -11,7 +12,8 @@ class LocalAPI(APIAdapter):
         self.single_res_file = cfg.localapi.single_res_file
         if self.single_res_file == "":
             self.res_dir = cfg.localapi.res_dir
-            os.mkdir(self.res_dir)
+            if not os.path.exists(self.res_dir):
+                os.mkdir(self.res_dir)
         else:
             self._res_file = open(self.single_res_file, "w")
 
