@@ -24,7 +24,7 @@ class LocalAPI(APIAdapter):
 
     def get_image(self):
         fname = self.file_list[self.index]
-        print fname
+        #print fname
         try:
             im = cv2.imread(os.path.join(self.local_dir, fname))
         except Exception as e:

@@ -28,6 +28,7 @@ ENTRY_POINTS = """
 [console_scripts]
 lpirc_detect=nics_lpirc.runner:main
 lpirc_vis=nics_lpirc.visualize:visualize
+lpirc_detect_prof=nics_lpirc.profiling_run:main
 """
 
 def read_long_description(filename):
