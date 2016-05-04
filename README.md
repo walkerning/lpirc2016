@@ -44,20 +44,18 @@ lpirc_detect  -c <config file> --api <fully-qualified import path of api class o
 4. 如果没有修改配置文件中的 `valapi -> res_file` 配置，生成的结果存在当前目录下的 `val_res.txt` 里
 
 **自己重新划分数据集**
+
 由于据说2013的bbox `train` 数据标注的不好, 所以准备只用2014新增的 `train` 数据和2012 ～ 2013的 `val` 数据划分成新的 `train` 和 `val` 集合.
 
-```bash
-python generate_training_subset.py -s 'range(1, 201)' -o train_10_fold.txt -v val_10_fold -p 0.9 -a ${ILSVRC_DEVKIT_DIR}/data/det_lists/val.txt -b ${IMAGENET_DATA_DIR}
-```
-
-使用 `val.ValAPI` 测试和使用ILSVRC的matlab mAP evaluate例程计算mAP的时候, 需要传的 `val.txt` 比上面生成的 `val_10_fold.txt` 要加一个 1-based 的index.
-运行以下命令生成供 `val.ValAPI` 和 `eval_det.m` 使用的 `val.txt`:
-
-```bash
-awk ' {printf "%s %s\n", $1, NR}' val_10_fold.txt >val.txt
-```
-
-由于每次生成有随机性，数据不同. 为了训练网络的时候方便对比, 大家先都用当前 `scripts/cross/*.txt` 的这三个文件.
+1. (*由于每次生成有随机性，数据不同. 为了训练网络的时候方便对比, 大家先都用当前 `scripts/cross/*.txt` 的这三个文件. 不用做第一步了*) 运行命令
+   ```bash
+   python generate_training_subset.py -s 'range(1, 201)' -o train_10_fold.txt -v val_10_fold.txt -p 0.9 -a ${ILSVRC_DEVKIT_DIR}/data/det_lists/val.txt -b ${IMAGENET_DATA_DIR}/ILSVRC2013_DET_val/
+   ```
+2. 使用 `val.ValAPI` 测试和使用ILSVRC的matlab mAP evaluate例程计算mAP的时候, 需要传的 `val.txt` 比上面生成的 `val_10_fold.txt` 要加一个 1-based 的index. 而且还是相对于 `${IMAGENET_DATA_DIR}/ILSVRC2013_DET_val_bbox/` 这个目录的相对路径, 而且还只有一层... 需要做一个目录里面放了软链接到对应的那些xml文件. 这一步还没做.(也是一个bash脚本的事情). 
+3. 创建完上面那个目录后, 运行以下命令生成供 `val.ValAPI` 和 `eval_det.m` 使用的 `val.txt`
+   ```bash
+   awk -F'/' '{printf "%s %s\n", $NF, NR}' val_10_fold.txt >val.txt
+   ```
 
 ### Test and Debug
 
