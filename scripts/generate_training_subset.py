@@ -109,6 +109,8 @@ with open(args.output, "w") as f:
 
 # validation list
 if args.val:
+    # 不使用训练数据做validate是基本素养!
+    val_set = val_set - img_set
     val_list = list(val_set)
     random.shuffle(val_list)
     if not args.quiet:
