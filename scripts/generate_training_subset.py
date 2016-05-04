@@ -10,6 +10,7 @@ import random
 parser = argparse.ArgumentParser()
 parser.add_argument("-s", "--subset", required=True, help="Python expression to eval to get the list of the classes you want")
 parser.add_argument("-o", "--output", required=True, help="Output file.")
+parser.add_argument("-q", "--quiet", action="store_true", help="Do not print out details")
 group = parser.add_mutually_exclusive_group()
 group.add_argument("-n", "--num", type=int, help="The number of postive samples of each class")
 group.add_argument("-p", "--percentage", type=float, help="The percentage of each class")
@@ -32,10 +33,12 @@ data_dir = os.path.abspath(os.path.join(imagenet_data_path, "ILSVRC2014_DET_trai
 
 # 现在只拿positive samples
 cls_list = eval(args.subset)
-img_list = []
+img_set = set()
+ps_num = 0
 for index in set(cls_list):
     t_file = os.path.join(train_dir, "train_pos_%d.txt" % index)
     with open(t_file, "r") as f:
+        #names = f.read().strip().split("\n")#[name for name in f.readlines() if name.startswith("ILSVRC2014_train_")]
         names = f.readlines()
         random.shuffle(names)
         img_num = len(names)
@@ -47,12 +50,19 @@ for index in set(cls_list):
         if args.percentage is not None:
             num = int(img_num * args.percentage)
             names = names[:num]
-        img_list += names
+        if not args.quiet:
+            print u"类别 %d 保留 %d positive samples" % (index, len(names))
+        ps_num += len(names)
+        img_set.update(set(names))
 
 # 随机shuffle训练数据
+# set is not guaranted to be ordered or random, let us shuffle it again
+img_list = list(img_set)
 random.shuffle(img_list)
 img_list = [os.path.join(data_dir, img) for img in img_list]
+img_num = len(img_list)
 with open(args.output, "w") as f:
     for name in img_list:
         f.write(name)
-    
+if not args.quiet:
+    print u"总sample num: %d, 总image num: %d" % (ps_num, img_num)
