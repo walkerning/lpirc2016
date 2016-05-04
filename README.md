@@ -32,6 +32,17 @@ lpirc_detect  -c <config file> --api <fully-qualified import path of api class o
 # eg. lpirc_detect -c ./lpirc.conf --api local.LocalAPI
 ```
 
+**本地跑ILSVRC的validate数据集**
+
+1. 设置好 `${IMAGENET_DATA_DIR}` 环境变量, 在eva2上是 `/home/imgNet/DATA/`
+2. 设置好 `${ILSVRC_DEVKIT_DIR}` 环境变量, 从ILSVRC官网下载devkit
+3. `cp lpirc.conf.sample myconfig.conf`, 然后根据自己的需求修改配置文件 (默认配置文件应该直接就能跑)
+3. 运行:
+   ```bash
+   lpirc_detect  -c <config file> --api val.ValAPI
+   ```
+4. 如果没有修改配置文件中的 `valapi -> res_file` 配置，生成的结果存在当前目录下的 `val_res.txt` 里
+
 ### Test and Debug
 
 **Visualizing**

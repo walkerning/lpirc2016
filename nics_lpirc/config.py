@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+import os
 import toml
 
 DEFAULT_CONF_STR = """
@@ -36,7 +39,22 @@ cpu_nms = false
 ## IoU >= this threshold)
 IoU_thresh = 0.3
 
-[api]
+[valapi]
+## The directory that contains the validation images
+# should be the path of the directory that contain the validation images
+# you can leave this configuration to default and set your ${IMAGENET_DATA_DIR}
+# environment variable
+pic_dir = "${IMAGENET_DATA_DIR}/ILSVRC2013_DET_val/"
+
+## This file contains a list of names of validation images for the detection task
+# should be the path of ${ILSVRC-devkit}/data/det_lists/val.txt on your machine
+# you can leave this configuration to default and set your ${ILSVRC_DEVKIT_DIR}
+# environment variable
+val_file = "${ILSVRC_DEVKIT_DIR}/data/det_lists/val.txt"
+
+## The single file that all the results should be write to
+# (The format is a ILSVRC-devkit evaluable format)
+res_file = "val_res.txt"
 
 [localapi]
 ## The directory that contains the test images
@@ -56,7 +74,11 @@ class _ConfigBundle(object):
 
     def __getattr__(self, name):
         if name in self.cfg_dict:
-            return self.cfg_dict[name]
+            value = self.cfg_dict[name]
+            if isinstance(value, str):
+                # try expand all the strings by envs using `os.path.expandvars`    
+                value = os.path.expandvars(value)
+            return value
         else:
             raise AttributeError("type %s object has no attribute %s" % (self.__class__,
                                                                          name))

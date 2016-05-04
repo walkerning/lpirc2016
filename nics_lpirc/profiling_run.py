@@ -11,6 +11,7 @@ from nics_lpirc.detector import Detector
 from nics_lpirc.runner import (Runner, main)
 from nics_lpirc.api.local import LocalAPI
 from nics_lpirc.api.http import HttpAPI
+from nics_lpirc.api.val import ValAPI
 
 global_timer_dict = {}
 
@@ -30,9 +31,10 @@ def summary(sort_key="average_time", file=sys.stdout):
 def patch_all():
     BoxReducer.reduce_boxes = profile_func(BoxReducer.reduce_boxes, "reducer.reduce_boxes")
     Detector.detect = profile_func(Detector.detect, "detector.detect(im_detect)")
+    ValAPI.commit_result = profile_func(ValAPI.commit_result, "valapi.commit_result")
     #Runner.detect = profile_func(Runner.detect, "runner.detect")
-    LocalAPI.commit_result = profile_func(LocalAPI.commit_result, "localapi.commit_result")
-    HttpAPI.commit_result = profile_func(HttpAPI.commit_result, "httpapi.commit_result")
+    #LocalAPI.commit_result = profile_func(LocalAPI.commit_result, "localapi.commit_result")
+    #HttpAPI.commit_result = profile_func(HttpAPI.commit_result, "httpapi.commit_result")
     atexit.register(summary)
 
 def profile_func(func, name):

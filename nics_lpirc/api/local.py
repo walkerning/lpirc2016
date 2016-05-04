@@ -39,10 +39,10 @@ class LocalAPI(APIAdapter):
         else:
             wf = open(os.path.join(self.res_dir, im_id), "w")
         for index in range(len(class_ids)):
-            wf.write("%s\t%d\t%f\t%f %f %f %f\n" % (im_id, class_ids[index],
-                                                    dets[index][4], dets[index][0],
-                                                    dets[index][1], dets[index][2],
-                                                    dets[index][3]))
+            wf.write("%s %d %f %f %f %f %f\n" % (im_id, class_ids[index],
+                                                 dets[index][4], dets[index][0],
+                                                 dets[index][1], dets[index][2],
+                                                 dets[index][3]))
 
     def done(self):
         return self.index >= self.num_files

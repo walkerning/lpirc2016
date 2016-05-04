@@ -3,6 +3,7 @@
 import argparse
 import sys
 import cPickle
+import re
 
 import matplotlib.pyplot as plt
 
@@ -28,7 +29,7 @@ class Visualizer(object):
             lines = f.read().strip().split("\n")
             for ind in range(len(lines)):
                 l = lines[ind]
-                im_id, cls_ind, score, bbox_str = l.split("\t")
+                im_id, cls_ind, score, bbox_str = re.split("[ \t]+", l, 3)
                 score = float(score)
                 if score <= self.vis_thresh:
                     continue

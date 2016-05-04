@@ -20,5 +20,6 @@ class APIAdapter(object):
     def __iter__(self):
         while not self.done():
             im_id, im = self.get_image()
-            yield((im_id, im))
+            if im is not None:
+                yield((im_id, im))
         yield((None, None))
