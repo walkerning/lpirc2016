@@ -128,7 +128,9 @@ httpapi.commit_result          0.000000 0.000000        0
 
 ### TODO
 
-- [ ] HTTP api实现
+- [x] HTTP api实现
 - [x] 可视化脚本
 - [x] profiling, 方便之后做各种参数的选择
-- [ ] evaluation脚本, 传入eval-dataset和对应的ground-truth评估模型的好坏
+- [x] evaluation脚本: 实现了一个 `ValAPI` 用于在val集上生成结果. 使用ILSVRC devkit自己的matlab脚本测试
+- [ ] 在caffe/py-faster-rcnn代码中进行减少测试内存的修改
+- [ ] 等训练的进一步进展, 联调调参数
