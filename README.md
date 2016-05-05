@@ -45,6 +45,8 @@ lpirc_detect  -c <config file> --api <fully-qualified import path of api class o
 
 **自己重新划分数据集**
 
+> NOTE: 这个部分已经Deprecated，还是使用涛宝宝之前划分的数据
+
 由于据说2013的bbox `train` 数据标注的不好, 所以准备只用2014新增的 `train` 数据和2012 ～ 2013的 `val` 数据划分成新的 `train` 和 `val` 集合.
 
 > NOTE: 以下用到的脚本都在 scripts 目录下
