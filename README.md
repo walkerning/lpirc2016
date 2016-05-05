@@ -59,6 +59,22 @@ lpirc_detect  -c <config file> --api <fully-qualified import path of api class o
    awk -F'/' '{printf "%s %s\n", $NF, NR}' val_10_fold.txt >val.txt
    ```
 
+跑的过程中发现有一些图像对应的bbox的标注是错的, 比如标注文件 `ILSVRC2014_DET_bbox_train/ILSVRC2014_train_0006/ILSVRC2014_train_00060036.xml` 出现 `xmin > xmax` 的情况:
+
+```xml
+        <object>
+                <name>n00007846</name>
+                <bndbox>
+                        <xmin>1</xmin>
+                        <xmax>0</xmax>
+                        <ymin>498</ymin>
+                        <ymax>498</ymax>
+                </bndbox>
+        </object>
+```
+
+现在直接把这些图像文件(.JPEG)的相对 `${IMAGENET_DATA_DIR}` 的路径暂时放在 `scripts/cross/train.blacklist` 里面, 等待删除
+
 ### Test and Debug
 
 **Visualizing**
