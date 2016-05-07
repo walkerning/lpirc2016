@@ -6,7 +6,7 @@ LPIRC 2016
 
 ### Install
 
-**重要重要** 注意`--user`是**强制**的了!!! 不要用sudo装在系统路径, 因为大家在用一个container!
+**重要重要** 注意`--user`是**强制**的了!!! 不要用sudo装在系统路径, 因为大家在用一个container! 或者直接运行`make`. 
 
 ```bash
 python setup.py develop --user

@@ -24,7 +24,9 @@ class ValAPI(APIAdapter):
         self.index = 0
 
     def get_image(self):
-        fname = self.file_list[self.index] + ".JPEG"
+        fname = self.file_list[self.index]
+        if not fname.endswith(".JPEG"):
+            fname += ".JPEG"
         abs_fname = os.path.join(self.local_dir, fname)
         #print abs_fname
 
@@ -48,7 +50,7 @@ class ValAPI(APIAdapter):
                                                              dets[index][3]))
 
     def done(self):
-        return self.index >= self.num_files or self.index >= self.num_limit
+        return self.index >= self.num_files or (self.num_limit is not None and self.index >= self.num_limit)
 
     @classmethod
     def get_image_by_id(cls, cfg, im_id):

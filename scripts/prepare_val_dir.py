@@ -36,9 +36,13 @@ with open(val_file, "r") as f:
         if not abs_fname:
             continue
         # this just follow the local name convetion
-        abs_img_fname = abs_fname + ".JPEG"
-        abs_gt_fname = abs_fname.replace("DET_", "DET_bbox_", 1) + ".xml"
-        
+        if not abs_fname.endswith(".JPEG"):
+            abs_img_fname = abs_fname + ".JPEG"
+            abs_gt_fname = abs_fname.replace("DET_", "DET_bbox_", 1) + ".xml"
+        else:
+            abs_img_fname = abs_fname
+            abs_gt_fname = abs_fname.replace("DET_", "DET_bbox_", 1).replace(".JPEG", ".xml")
+
         sh.ln("-s", abs_img_fname, os.path.join(img_dir,
                                                 os.path.basename(abs_img_fname)))
         sh.ln("-s", abs_gt_fname, os.path.join(gt_dir,
