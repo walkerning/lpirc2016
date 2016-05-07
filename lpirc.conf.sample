@@ -72,7 +72,7 @@
 
 # res_dir = "./images_res"
 
-[HttpAPI]
+[httpapi]
 ## Username of client
 # username = "lpirc"
 

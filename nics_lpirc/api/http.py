@@ -9,7 +9,7 @@ from nics_lpirc.api import APIAdapter
 
 class HttpAPI(APIAdapter):
     def __init__(self, cfg):
-        self.cfg = cfg.HttpAPI
+        self.cfg = cfg.httpapi
         client.set_cfgs(self.cfg)
         [self.token, self.status] = client.get_token(self.cfg.username, self.cfg.password)
         [self.total_num, status] = client.get_no_of_images(self.token)
@@ -92,7 +92,7 @@ class HttpAPI(APIAdapter):
 
 class Clever_HttpAPI(APIAdapter):
     def __init__(self, cfg):
-        self.cfg = cfg.HttpAPI
+        self.cfg = cfg.httpapi
         client.set_cfgs(self.cfg)
         [self.token, self.status] = client.get_token(self.cfg.username, self.cfg.password)
         [self.total_num, status] = client.get_no_of_images(self.token)
