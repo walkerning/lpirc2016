@@ -61,7 +61,9 @@ class ValAPI(APIAdapter):
             for line in f:
                 index -= 1
                 if index <= 0:
-                    fname = line.split(" ", 1)[0] + ".JPEG"
+                    fname = line.split(" ", 1)[0]
+                    if not fname.endswith(".JPEG"):
+                        fname += ".JPEG"
                     break
         try:
             abs_fname = os.path.join(ldir, fname)

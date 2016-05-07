@@ -71,3 +71,20 @@
 # single_res_file = ""
 
 # res_dir = "./images_res"
+
+[HttpAPI]
+## Username of client
+# username = ""
+
+## Password of client
+# password = ""
+
+## The downloaded image will be saved in local directory `image_directory`
+# image_directory = ""
+
+## Temp directory
+# temp_directory = ""
+
+## The address and port of the image server
+# host_ipaddress = ""
+# host_port = ""
