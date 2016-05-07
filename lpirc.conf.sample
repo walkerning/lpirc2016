@@ -57,6 +57,11 @@
 # (The format is a ILSVRC-devkit evaluable format)
 # res_file = "val_res.txt"
 
+## The max number of files to validate
+# if negative, this configuration will be ignored.
+# if positive, min(num_limit, num_of_file_in_val_file) will be used as the limit
+# num_limit = -1
+
 [localapi]
 ## The directory that contains the test images
 # local_dir = "./images"

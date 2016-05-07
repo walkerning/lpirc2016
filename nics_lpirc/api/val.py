@@ -11,6 +11,7 @@ class ValAPI(APIAdapter):
     def __init__(self, cfg):
         self.local_dir = cfg.valapi.pic_dir
         self.val_file = cfg.valapi.val_file
+        self.num_limit = cfg.valapi.num_limit if cfg.valapi.num_limit >= 0 else None
 
         # open result file
         self.res_file = cfg.valapi.res_file
@@ -47,7 +48,7 @@ class ValAPI(APIAdapter):
                                                              dets[index][3]))
 
     def done(self):
-        return self.index >= self.num_files
+        return self.index >= self.num_files or self.index >= self.num_limit
 
     @classmethod
     def get_image_by_id(cls, cfg, im_id):
