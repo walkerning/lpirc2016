@@ -5,10 +5,15 @@ LPIRC 2016
 ----------------
 
 ### Install
+
+**重要重要** 注意`--user`是**强制**的了!!! 不要用sudo装在系统路径, 因为大家在用一个container!
+
 ```bash
-python setup.py develop
+python setup.py develop --user
 ```
 
+此时就应该可以在命令行中使用 `lpirc_detect`, `lpirc_detect_prof`, `lpirc_vis` 这三个命令. 
+> NOTICE: 可能你的 `${HOME}/.local/bin/` 目录还不在环境变量 `PATH` 里, 需要将其加入 `PATH` 才能找到这些命令
 
 为了方便用不同的faster RCNN build测试，现在先不使用`git submodule`并自动设置`sys.path`的形式.
 所以需要自己设置好 `PYTHONPATH` 环境变量
@@ -45,11 +50,11 @@ lpirc_detect  -c <config file> --api <fully-qualified import path of api class o
 
 **自己重新划分数据集**
 
-> NOTE: 这个部分已经Deprecated，还是使用涛宝宝之前划分的数据
+> DEPRECATED: 这个部分已经Deprecated，还是使用涛宝宝之前划分的数据
 
 由于据说2013的bbox `train` 数据标注的不好, 所以准备只用2014新增的 `train` 数据和2012 ～ 2013的 `val` 数据划分成新的 `train` 和 `val` 集合.
 
-> NOTE: 以下用到的脚本都在 scripts 目录下
+> NOTICE: 以下用到的脚本都在 scripts 目录下
 
 1. (*由于每次生成有随机性，数据不同. 为了训练网络的时候方便对比, 大家先都用当前 `scripts/cross/*.txt` 的这三个文件. 不用做第一步了*) 运行命令
    ```

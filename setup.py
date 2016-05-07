@@ -7,7 +7,7 @@ here = os.path.dirname(os.path.abspath((__file__)))
 # meta infos
 NAME = "nics_lpirc"
 DESCRIPTION = "lpirc2016 codes"
-VERSION = "0.1"
+VERSION = "0.2"
 
 AUTHOR = "foxfi"
 EMAIL = "foxdoraame@gmail.com"
