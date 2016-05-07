@@ -74,17 +74,17 @@
 
 [HttpAPI]
 ## Username of client
-# username = ""
+# username = "lpirc"
 
 ## Password of client
-# password = ""
+# password = "pass"
 
 ## The downloaded image will be saved in local directory `image_directory`
-# image_directory = ""
+# image_directory = "./images"
 
 ## Temp directory
-# temp_directory = ""
+# temp_directory = "./temp"
 
 ## The address and port of the image server
-# host_ipaddress = ""
-# host_port = ""
+# host_ipaddress = "127.0.0.1"
+# host_port = "5000"
