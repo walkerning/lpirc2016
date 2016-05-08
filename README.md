@@ -173,3 +173,11 @@ httpapi.commit_result          0.000000 0.000000        0
 - [x] evaluation脚本: 实现了一个 `ValAPI` 用于在val集上生成结果. 使用ILSVRC devkit自己的matlab脚本测试
 - [ ] 在caffe/py-faster-rcnn代码中进行减少测试内存的修改
 - [ ] 等训练的进一步进展, 联调调参数
+
+### Helpers
+
+`scripts`文件夹下有一些帮助训练和测试的脚本, 都很简单, 不一定要用, 自己写scripts也行. Anyway, FYI:
+
+* draw_net.py: `python draw_net.py <prototxt文件名> <生成的图片路径>.png` 可视化网络结构. `python draw_net.py <包含prototxt的文件夹> <存放生成图片的文件夹名>` 可递归画出一个文件夹下后缀名`.pt`或者`.prototxt`结尾的网络.
+
+> NOTICE: 某些脚本有一些依赖包, 可能需要 `pip install -r requirements.txt --user`
