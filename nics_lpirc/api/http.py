@@ -51,9 +51,9 @@ class HttpAPI(APIAdapter):
 
 
     def commit_result(self,image_id, class_ids, dets):
-        print dets
-        confidences = [x[0] for x in dets]
-        bboxs = [x[1:5] for x in dets]
+        # print dets
+        confidences = [x[4] for x in dets]
+        bboxs = [x[0:4] for x in dets]
         if len(class_ids) != len(confidences) and len(class_ids) != len(bboxs):
             print "Index does not match!"
             return 0
@@ -159,8 +159,8 @@ class Clever_HttpAPI(APIAdapter):
 
     def commit_result(self,image_id, class_ids, dets):
         # print dets
-        confidences = [x[0] for x in dets]
-        bboxs = [x[1:5] for x in dets]
+        confidences = [x[5] for x in dets]
+        bboxs = [x[0:4] for x in dets]
         if len(class_ids) != len(confidences) and len(class_ids) != len(bboxs):
             print "Index does not match!"
             return 0
