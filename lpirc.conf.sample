@@ -88,3 +88,6 @@
 ## The address and port of the image server
 # host_ipaddress = "127.0.0.1"
 # host_port = "5000"
+
+## Delete the image file after detection while running
+# del_img = false

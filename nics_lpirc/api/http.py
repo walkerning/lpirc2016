@@ -17,6 +17,8 @@ class HttpAPI(APIAdapter):
         self.post_idx = 0
         # print "Total num:", self.total_num
         self.total_num = int(self.total_num)
+        self.image_id_last = '0.jpg'
+        
 
     def get_image(self):
         if self.done():
@@ -31,7 +33,7 @@ class HttpAPI(APIAdapter):
             print "Exception:", e
             res = ''
         self.get_idx += 1
-        print "Image download. Current idx:", self.get_idx
+        # print "Image download. Current idx:", self.get_idx
         return str(self.get_idx)+'.jpg', im
     
     def get_images(self):
@@ -46,7 +48,7 @@ class HttpAPI(APIAdapter):
             print "Exception:", e
             res = ''
         self.get_idx += 100
-        print "Image batch download. Current idx:", self.get_idx
+        # print "Image batch download. Current idx:", self.get_idx
         return (self.get_idx, res)
 
 
@@ -76,7 +78,18 @@ class HttpAPI(APIAdapter):
         except Exception as e:
             print "Exception:", e
         self.post_idx += 1
-        print "Result uploaded. Current idx:", image_id
+        print 'image_id: ', image_id
+        if self.cfg.del_img and self.image_id_last != image_id:
+            # delete the last image
+            for img_idx in range(int(self.image_id_last.split('.')[0]), int(image_id.split('.')[0])):
+                
+                try:
+                    os.remove(os.path.join(self.cfg.image_directory, '%d.jpg'%(img_idx)))
+                except:
+                    pass
+        self.image_id_last = image_id
+            
+        # print "Result uploaded. Current idx:", image_id
         return 1
 
     def done(self):

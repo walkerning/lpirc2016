@@ -142,6 +142,18 @@ localapi.commit_result         0.000054 0.000271        5
 httpapi.commit_result          0.000000 0.000000        0
 ```
 
+### Http server
+
+**client端**
+Http Server的配置在lpirc.config中的httpapi中进行配置，各选项都有注释，目前的用户名有lpirc, jiantao, woinck, foxfi, 其中lpirc的密码为pass，其他密码均与用户名同。
+
+当测试数据较多时，若在tx1上进行http server的测试，为存储空间考虑，请在config中将del_img设置为true。
+
+**server端**
+server的官方repo[在这里](https://github.com/luyunghsiang/LPIRC)，另外，现在在jiantao.eva2.nics.cc上长期运行着一个http server，程序位置为*/home/woinck/proj/LPIRC/* (记为SERVER_DIR)，启动位置为SERVER_DIR/server/source/startserver.sh，若需要添加新用户则可以在referee.py中添加
+
+服务器将client提交的数据存在SERVER_DIR/csv/tmp/your_user_name.csv中，每个bounding box为一行，分别为图片编号，class_id，置信度，bounding box的四个坐标。
+
 ### Problems
 
 如果是调用caffe的c++过程们中间出错退出, 不能在Python的`atexit`和`except:`里面抓到, 导致子进程不能被安全的退出。应该要开两个进程，另一个进程负责管理. 不过感觉对于正确情况没必要, 所以不实现了
