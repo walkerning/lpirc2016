@@ -17,7 +17,7 @@ class BoxReducer(object):
         """
         box_classes = []
         box_scores = np.array([], dtype="float32")
-        for j in xrange(1, self.num_classes):
+        for j in xrange(1, self.num_classes+1):
             # single-class NMS
             inds = np.where(scores[:, j] > self.score_thresh)[0]
             cls_scores = scores[inds, j]
