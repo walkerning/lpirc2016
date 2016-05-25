@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
+import time
+import datetime
 import atexit
 from functools import wraps
+from multiprocessing import Process
+import sh
 
 from utils.timer import Timer # in fast_rcnn
 
 from nics_lpirc.reducer import BoxReducer
 from nics_lpirc.detector import Detector
-from nics_lpirc.runner import (Runner, main)
+from nics_lpirc.runner import Runner
+from nics_lpirc.runner import main as _main
 from nics_lpirc.api.local import LocalAPI
 from nics_lpirc.api.http import HttpAPI
 from nics_lpirc.api.val import ValAPI
@@ -34,7 +40,7 @@ def patch_all():
     ValAPI.commit_result = profile_func(ValAPI.commit_result, "valapi.commit_result")
     #Runner.detect = profile_func(Runner.detect, "runner.detect")
     #LocalAPI.commit_result = profile_func(LocalAPI.commit_result, "localapi.commit_result")
-    #HttpAPI.commit_result = profile_func(HttpAPI.commit_result, "httpapi.commit_result")
+    HttpAPI.commit_result = profile_func(HttpAPI.commit_result, "httpapi.commit_result")
     atexit.register(summary)
 
 def profile_func(func, name):
@@ -60,3 +66,23 @@ def profile_func(func, name):
 
 # monkey patch all computations that we concern
 patch_all()
+
+def evaluate_mem(_pid, logfile):
+    """
+    Use the ps command for profiling memory for now.
+    """
+    print "Start benchmarking the RSS memory usage, result will be in " + logfile
+    with open(logfile, "w") as wf:
+        while 1:
+            info = sh.awk(sh.tr(sh.ps("aux"), "-s", "' '"), "-vpid={}".format(_pid), "{if ($2==pid) {print $6}}").strip()
+            wf.write("{:<12s}: {:10s}\n".format(str(datetime.datetime.now()), info))
+            wf.flush() # FIXME: ugly solution here
+            time.sleep(1)
+    
+def main():
+    self_pid = os.getpid()
+    memory_eval_process = Process(target=evaluate_mem, args=(self_pid, "memory_use.log"))
+    memory_eval_process.start()
+    _main()
+    memory_eval_process.terminate()
+    memory_eval_process.join()
