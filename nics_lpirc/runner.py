@@ -16,10 +16,18 @@ from nics_lpirc.config import Config
 
 fetch_process = None
 
+def patch_fast_rcnn_config(cfg):
+    print "Patching fast_rcnn.config !"
+    f_cfg.TEST.HAS_RPN = True
+    f_cfg.TEST.RPN_PRE_NMS_TOP_N = cfg.fast_rcnn.RPN_PRE_NMS_TOP_N
+    f_cfg.TEST.RPN_POST_NMS_TOP_N = cfg.fast_rcnn.RPN_POST_NMS_TOP_N
+    #f_cfg.GPU_ID = cfg.detector.device_id
+
 class Runner(object):
     def __init__(self, api_cls, detector_cls, reducer_cls, cfg):
         # patch fast_rcnn.config.cfg
-        f_cfg.TEST.HAS_RPN = True
+        patch_fast_rcnn_config(cfg)
+
         if not issubclass(api_cls, APIAdapter):
             raise ValueError("`api_cls` should be an subclass of class `APIAdapter`")
         self.api_ada = api_cls(cfg)

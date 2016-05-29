@@ -71,6 +71,12 @@ single_res_file = ""
 
 res_dir = "./images_res"
 
+[fast_rcnn]
+# Number of top scoring boxes to keep before apply NMS to RPN proposals
+RPN_PRE_NMS_TOP_N = 6000
+
+# Number of top scoring boxes to keep after applying NMS to RPN proposals
+RPN_POST_NMS_TOP_N = 300
 """
 
 class _ConfigBundle(object):
