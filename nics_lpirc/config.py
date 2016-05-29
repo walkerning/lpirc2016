@@ -71,6 +71,26 @@ single_res_file = ""
 
 res_dir = "./images_res"
 
+[httpapi]
+## Username of client
+username = "lpirc"
+
+## Password of client
+password = "pass"
+
+## The downloaded image will be saved in local directory `image_directory`
+image_directory = "./images"
+
+## Temp directory
+temp_directory = "./temp"
+
+## The address and port of the image server
+host_ipaddress = "127.0.0.1"
+host_port = "5000"
+
+## Delete the image file after detection while running
+del_img = false
+
 [fast_rcnn]
 # Number of top scoring boxes to keep before apply NMS to RPN proposals
 RPN_PRE_NMS_TOP_N = 6000
