@@ -37,10 +37,11 @@ def summary(sort_key="average_time", file=sys.stdout):
 def patch_all():
     BoxReducer.reduce_boxes = profile_func(BoxReducer.reduce_boxes, "reducer.reduce_boxes")
     Detector.detect = profile_func(Detector.detect, "detector.detect(im_detect)")
-    ValAPI.commit_result = profile_func(ValAPI.commit_result, "valapi.commit_result")
+    #ValAPI.commit_result = profile_func(ValAPI.commit_result, "valapi.commit_result")
     #Runner.detect = profile_func(Runner.detect, "runner.detect")
     #LocalAPI.commit_result = profile_func(LocalAPI.commit_result, "localapi.commit_result")
     HttpAPI.commit_result = profile_func(HttpAPI.commit_result, "httpapi.commit_result")
+    HttpAPI._commit_result = profile_func(HttpAPI._commit_result, "httpapi.real_commit_result") # FIXME: 由于使用了多进程这个结果暂时不会被Summary记录
     atexit.register(summary)
 
 def profile_func(func, name):

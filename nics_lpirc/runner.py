@@ -56,14 +56,16 @@ class Runner(object):
         global fetch_process
         fetch_process = Process(target=Runner.fetch_image, args=(self.api_ada, self.queue))
         fetch_process.start()
+        self.api_ada.commiter_start()
         # Q: 是否应该在此进程读图像文件, 而不是从queue里拿image
         im_id, im = self.queue.get()
         while im_id is not None:
             class_ids, dets = self.detect(im)
             self.api_ada.commit_result(im_id, class_ids, dets)
             im_id, im = self.queue.get()
-
+        self.api_ada.commiter_done() # for commiter run in a seperate process
         fetch_process.join()
+        self.api_ada.commiter_join()
 
 def terminate_fetch_process():
     if fetch_process is not None and fetch_process.is_alive():
@@ -92,9 +94,11 @@ def main():
     except Exception as e:
         print >>sys.stderr, "%s: %s" % (e.__class__.__name__, e)
         traceback.print_exc()
+        runner.api_ada.commiter_kill()
         terminate_fetch_process()
     except:
         # try to terminate the subprocess when something unexpected happened.
+        runner.api_ada.commiter_kill()
         terminate_fetch_process()
 
 if __name__ == "__main__":

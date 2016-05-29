@@ -5,10 +5,12 @@ import numpy as np
 import cv2
 
 from nics_lpirc.api import client
-from nics_lpirc.api import APIAdapter
+from nics_lpirc.api import APIAdapter, SubprocessAPIAdapter
 
-class HttpAPI(APIAdapter):
+class HttpAPI(SubprocessAPIAdapter):
     def __init__(self, cfg):
+        super(HttpAPI, self).__init__(cfg)
+
         self.cfg = cfg.httpapi
         client.set_cfgs(self.cfg)
         [self.token, self.status] = client.get_token(self.cfg.username, self.cfg.password)
@@ -18,7 +20,6 @@ class HttpAPI(APIAdapter):
         # print "Total num:", self.total_num
         self.total_num = int(self.total_num)
         self.image_id_last = '0.jpg'
-        
 
     def get_image(self):
         if self.done():
@@ -51,8 +52,7 @@ class HttpAPI(APIAdapter):
         # print "Image batch download. Current idx:", self.get_idx
         return (self.get_idx, res)
 
-
-    def commit_result(self,image_id, class_ids, dets):
+    def _commit_result(self,image_id, class_ids, dets):
         # print dets
         confidences = [x[4] for x in dets]
         bboxs = [x[0:4] for x in dets]

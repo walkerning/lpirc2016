@@ -1,1 +1,1 @@
-from .api import APIAdapter
+from .api import APIAdapter, SubprocessAPIAdapter
