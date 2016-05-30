@@ -92,6 +92,9 @@
 ## Delete the image file after detection while running
 # del_img = false
 
+## Add a time suffix for each running 
+# add_suffix = true
+
 [fast_rcnn]
 # Number of top scoring boxes to keep before apply NMS to RPN proposals
 # RPN_PRE_NMS_TOP_N = 6000

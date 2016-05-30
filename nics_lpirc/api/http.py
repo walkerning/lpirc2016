@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
+import os, time
 import numpy as np
 import cv2
 
@@ -13,7 +13,13 @@ class HttpAPI(SubprocessAPIAdapter):
 
         self.cfg = cfg.httpapi
         client.set_cfgs(self.cfg)
-        [self.token, self.status] = client.get_token(self.cfg.username, self.cfg.password)
+        if self.cfg.add_suffix:
+            username = self.cfg.username + '-' + time.strftime("%m-%d-%H%M%S",time.localtime(time.time()))
+        else:
+            username = self.cfg.username
+        password = username
+
+        [self.token, self.status] = client.get_token(username, password)
         [self.total_num, status] = client.get_no_of_images(self.token)
         self.get_idx = 0
         self.post_idx = 0
