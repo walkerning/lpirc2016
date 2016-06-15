@@ -72,7 +72,7 @@ class Visualizer(object):
             print "%d: image %s handled, %d boxes ploted" % (vis_ind, im_id, len(det_infos))
             vis_ind += 1
             plt.axis("off")
-            plt.tight_layout
+            plt.tight_layout()
             plt.draw()
 
         # show all the plots
